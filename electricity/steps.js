@@ -1,19 +1,23 @@
-// Generated steps data for Circuit Basics
+// Generated steps data for Helping Hands MB Circuit Basics Lessons
 const lessonSteps = [
     {
-        "title": "Step 1: Your First Component",
-        "content": "<p>Welcome! To begin, drag a <strong>battery</strong> to the center of the workspace from the left menu. This will be our power source.</p>"
+        "title": "1. Welcome to the Helping Hands MB Smart City Electrical Grid!",
+        "content": "<p>Welcome, future engineers and architects, to your interactive electricity tutorial. Today, you will learn how electricity flows and use that power to build components for a smart, sustainable city. Let's get started.</p>\n<p>Continue by clicking the \"Next Step\" button.</p>"
     },
     {
-        "title": "Step 2: Adding Wires",
-        "content": "<p>Now, grab a <strong>wire</strong> and connect it to the positive terminal of the battery. Wires allow charge to flow.</p>"
+        "title": "2. Electricity & Electrons",
+        "content": "<p>What exactly is electricity? Electricity is energy created by the movement of tiny, invisible particles called electrons. These electrons carry a negative charge. Think of them as tiny, energetic particles flowing together inside a wire, similar to water flowing through a garden hose. When they move together, they create usable electrical energy.</p>\n<p>Start by dragging a battery to the center of the workspace from the left menu. This will be our power source. A <strong>battery</strong> is your energy source. It stores the electrical energy for the rest circuit. When not doing anything, it is actually stored as chemical energy and then becomes electrical energy when in a circuit.</p>\n<p>Continue by clicking the \"Next Step\" button.</p>"
     },
     {
-        "title": "Step 3: What is Voltage?",
-        "content": "<p>The battery provides <strong>Voltage</strong>. Think of voltage as &quot;electrical pressure&quot; pushing the electrons through the wire.</p>"
+        "title": "3. Using Electricity",
+        "content": "<p>To create a circuit, it needs a power source (our battery), a device (such as a light bulb), and a flow of electricity between them.</p>\n<p>Grab a Light Bulb from the left menu and drag it into the workspace. Notice it is not lighting up yet.</p>\n<p>Drag a wire and connect it from the battery to the light bulb like shown in the image below.</p>\n<p>[example image of light bulb half connected]</p>\n<p>Notice it is still not lighting up yet. Let’s learn why by clicking the \"Next Step\" button.</p>"
     },
     {
-        "title": "Step 4: Close the Loop",
-        "content": "<p>Connect the battery, wire, and a bulb into a continuous circle. Notice how the bulb lights up when the loop is closed!</p>"
+        "title": "4. Open vs. Closed Circuits",
+        "content": "<p>To do any real work, electrons need a continuous, uninterrupted path to travel from their energy source, through a device, and back again. This full loop is called a circuit.</p>\n<p>Currently, this is an Open Circuit. In an open circuit, the electricity stops instantly and never starts, and the electrons remain inactive in the battery.</p>\n<p>When all the wires are connected or a switch is turned on, it completes the loop. This is a Closed Circuit, and it lets electrons flow freely to make your lights shine. But if a wire is disconnected or the switch is turned off, it creates a break in the loop, becoming an open circuit again.</p>\n<p>Grab another wire and connect the light bulb to the other end of the battery to close our circuit.</p>\n<p>It should work!</p>"
+    },
+    {
+        "title": "5. Adding a Switch",
+        "content": "<p>Try adding a switch to your circuit so it can be turned off or on whenever you want. In other words, can you change this Closed Circuit into an Open Circuit to shut down the bulb?</p>\n<p>Once you can, continue by clicking the \"Next Step\" button.</p>"
     }
 ];
