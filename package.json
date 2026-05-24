@@ -1,0 +1,19 @@
+{
+  "name": "hhmb-circuit-construction-lessons",
+  "version": "1.0.0",
+  "description": "Interactive Steam circuit construction lessons for Helping Hands MB",
+  "main": "build.js",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js && live-server"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0",
+    "marked": "^9.1.5"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "author": "Helping Hands MB",
+  "license": "MIT"
+}
