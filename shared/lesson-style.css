@@ -365,3 +365,193 @@ button:disabled {
         height: calc(100vh - 400px);
     }
 }
+
+/* 8. Translation & Language Feature Styles */
+.panel-language-controls {
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    background: linear-gradient(180deg, #ffffff 0%, #fbfbfc 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.panel-language-controls .control-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.panel-language-controls .control-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.panel-language-controls .preset-buttons {
+    display: flex;
+    gap: 0.35rem;
+}
+
+.panel-language-controls .preset-btn {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.panel-language-controls .preset-btn:hover {
+    border-color: var(--accent-color);
+    color: var(--text-primary);
+    background-color: var(--bg-color);
+}
+
+.panel-language-controls .preset-btn.active {
+    background-color: var(--accent-color);
+    color: #ffffff;
+    border-color: var(--accent-color);
+    box-shadow: 0 2px 8px rgba(137, 137, 235, 0.4);
+}
+
+/* Keyterm Highlights (only styled when translation mode is active) */
+.translation-enabled .keyterm {
+    border-bottom: 2px dashed var(--accent-color);
+    cursor: help;
+    font-weight: 600;
+    color: var(--text-primary);
+    background-color: rgba(137, 137, 235, 0.04);
+    border-radius: 2px;
+    padding: 0 2px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.translation-enabled .keyterm:hover {
+    border-bottom-style: solid;
+    background-color: rgba(137, 137, 235, 0.12);
+    color: var(--accent-hover);
+    box-shadow: 0 2px 4px rgba(137, 137, 235, 0.1);
+}
+
+/* Tooltip Container with Premium Slate Glassmorphism Design */
+.keyterm-tooltip {
+    position: absolute;
+    z-index: 10000;
+    background: rgba(15, 23, 42, 0.95); /* Deep slate */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #f8fafc;
+    padding: 14px 16px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    max-width: 280px;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    pointer-events: auto;
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.keyterm-tooltip.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.keyterm-tooltip .tooltip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 4px;
+}
+
+.keyterm-tooltip .original-word {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+.keyterm-tooltip .pronounce-btn {
+    background: none;
+    border: none;
+    color: #cbd5e1;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.keyterm-tooltip .pronounce-btn:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
+}
+
+.keyterm-tooltip .pronounce-btn:active {
+    transform: scale(0.95);
+}
+
+.keyterm-tooltip .pronounce-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+.keyterm-tooltip .tooltip-translation {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #ffffff;
+    margin-bottom: 6px;
+    letter-spacing: 0.2px;
+}
+
+.keyterm-tooltip .tooltip-definition {
+    font-size: 0.8rem;
+    color: #cbd5e1;
+}
+
+.keyterm-tooltip .tooltip-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    content: "";
+}
+
+/* Arrow placement rules */
+.keyterm-tooltip.arrow-bottom .tooltip-arrow {
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-top: 6px solid rgba(15, 23, 42, 0.95);
+}
+
+.keyterm-tooltip.arrow-top .tooltip-arrow {
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-bottom: 6px solid rgba(15, 23, 42, 0.95);
+}
+
+/* Hide language presets on mobile */
+@media (max-width: 768px) {
+    .panel-language-controls {
+        display: none !important;
+    }
+}

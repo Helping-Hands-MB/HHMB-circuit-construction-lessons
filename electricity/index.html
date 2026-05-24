@@ -35,6 +35,19 @@
                     <span id="sidebar-width-display" class="width-val">350px</span>
                 </div>
             </div>
+
+            <!-- Translation / Language controls -->
+            <div class="panel-language-controls" aria-label="Language translation settings">
+                <div class="control-row">
+                    <span class="control-label">Translate:</span>
+                    <div class="preset-buttons">
+                        <button type="button" class="preset-btn lang-btn active" data-lang="none" title="English / Off">Off</button>
+                        <button type="button" class="preset-btn lang-btn" data-lang="es" title="Español (Spanish)">ES</button>
+                        <button type="button" class="preset-btn lang-btn" data-lang="fr" title="Français (French)">FR</button>
+                        <button type="button" class="preset-btn lang-btn" data-lang="de" title="Deutsch (German)">DE</button>
+                    </div>
+                </div>
+            </div>
             
             <main class="lesson-content">
                 <div class="lesson-header">
@@ -66,6 +79,24 @@
         </section>
     </div>
 
+    <!-- Dynamic custom keyterm translation tooltip container -->
+    <div id="keyterm-tooltip" class="keyterm-tooltip" role="tooltip" style="display: none;">
+        <div class="tooltip-arrow"></div>
+        <div class="tooltip-header">
+            <span id="tooltip-original" class="original-word">term</span>
+            <button id="tooltip-pronounce" class="pronounce-btn" title="Listen to translation">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+            </button>
+        </div>
+        <div id="tooltip-translation" class="tooltip-translation">translation</div>
+        <div id="tooltip-definition" class="tooltip-definition">definition</div>
+    </div>
+
+    <!-- We load keyterms first so they are available to the engine -->
+    <script src="../shared/keyterms.js"></script>
     <!-- We load the locally compiled steps generated from Markdown -->
     <script src="steps.js"></script>
     <!-- We link our shared Javascript logic containing button listeners and rendering engine -->

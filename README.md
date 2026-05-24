@@ -12,8 +12,8 @@ The lessons will be useful for students in the 4th and 5th grades, targeted for 
 
 - [ ] Implement an “ask AI” button for tutoring.
 - [ ] Finish all the lessons with explanations and clear instructions
-- [ ] Add a translation feature? Maybe not complete 1-to-1 translation but more inline with ESOL standards.
-- [ ] Verify it works when using a new browser, should never require logging into an account to use the site.
-- [ ] Verify the website is live at [lessons.helpinghandsmb.org](https://lessons.helpinghandsmb.org/)
+- [X] Add a translation feature? Maybe not complete 1-to-1 translation but more inline with ESOL standards.
+- [X] Verify it works when using a new browser, should never require logging into an account to use the site.
+- [X] Verify the website is live at [lessons.helpinghandsmb.org](https://lessons.helpinghandsmb.org/)
 - [ ] Incorporate interactive parts of the lessons (i.e. questions to answer, videos to watch, pictures)
 - [ ] Create video lessons walking through the simulator lessons

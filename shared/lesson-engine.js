@@ -89,6 +89,182 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+
+    // --- Translation & Vocabulary Logic ---
+    const langBtns = document.querySelectorAll(".lang-btn");
+    const tooltipEl = document.getElementById("keyterm-tooltip");
+    const tooltipOriginal = document.getElementById("tooltip-original");
+    const tooltipTranslation = document.getElementById("tooltip-translation");
+    const tooltipDefinition = document.getElementById("tooltip-definition");
+    const tooltipPronounceBtn = document.getElementById("tooltip-pronounce");
+
+    let currentLang = localStorage.getItem("hhmb-translation-lang") || "none";
+    let activeKeytermNode = null;
+    let tooltipTimeout = null;
+
+    function setTranslationLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem("hhmb-translation-lang", lang);
+
+        langBtns.forEach(btn => {
+            if (btn.getAttribute("data-lang") === lang) {
+                btn.classList.add("active");
+            } else {
+                btn.classList.remove("active");
+            }
+        });
+
+        if (lang === "none") {
+            if (appContainer) appContainer.classList.remove("translation-enabled");
+        } else {
+            if (appContainer) appContainer.classList.add("translation-enabled");
+        }
+    }
+
+    // Initialize language toggle state
+    setTranslationLanguage(currentLang);
+
+    // Bind language button click actions
+    langBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            setTranslationLanguage(btn.getAttribute("data-lang"));
+            // Close tooltip if active when setting new language
+            activeKeytermNode = null;
+            hideTooltip();
+        });
+    });
+
+    // Native Speech Synthesis for pronunciations
+    function speakWord(text, lang) {
+        if ("speechSynthesis" in window) {
+            window.speechSynthesis.cancel(); // Cancel any active speech
+            const utterance = new SpeechSynthesisUtterance(text);
+            const locales = {
+                "es": "es-ES",
+                "fr": "fr-FR",
+                "de": "de-DE"
+            };
+            utterance.lang = locales[lang] || lang;
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    // Show floating tooltip
+    function showTooltip(element, term) {
+        if (typeof KEYTERMS === "undefined" || !KEYTERMS || !KEYTERMS[term]) return;
+        if (currentLang === "none") return;
+
+        const data = KEYTERMS[term][currentLang];
+        if (!data) return;
+
+        // Populate content values
+        tooltipOriginal.textContent = element.textContent;
+        tooltipTranslation.textContent = data.translation;
+        tooltipDefinition.textContent = data.definition || "";
+
+        // Setup pronounce button handler
+        tooltipPronounceBtn.onclick = (e) => {
+            e.stopPropagation();
+            speakWord(data.translation, currentLang);
+        };
+
+        // Render in page and reset classes
+        tooltipEl.style.display = "block";
+        tooltipEl.classList.remove("visible", "arrow-top", "arrow-bottom");
+
+        const rect = element.getBoundingClientRect();
+        const tooltipRect = tooltipEl.getBoundingClientRect();
+
+        // Standard placement centered directly above the keyterm
+        let top = window.scrollY + rect.top - tooltipRect.height - 8;
+        let left = window.scrollX + rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+
+        // Boundary adjustments
+        if (rect.top - tooltipRect.height - 8 < 0) {
+            // Flip tooltips to below if clipping at the top
+            top = window.scrollY + rect.bottom + 8;
+            tooltipEl.classList.add("arrow-top");
+        } else {
+            tooltipEl.classList.add("arrow-bottom");
+        }
+
+        // Horizontal screen constraint boundaries protection
+        const padding = 12;
+        if (left < padding) {
+            left = padding;
+        } else if (left + tooltipRect.width > window.innerWidth - padding) {
+            left = window.innerWidth - tooltipRect.width - padding;
+        }
+
+        tooltipEl.style.top = `${top}px`;
+        tooltipEl.style.left = `${left}px`;
+
+        // Trigger CSS transition animation
+        if (tooltipTimeout) clearTimeout(tooltipTimeout);
+        setTimeout(() => {
+            tooltipEl.classList.add("visible");
+        }, 10);
+    }
+
+    function hideTooltip() {
+        tooltipEl.classList.remove("visible");
+        if (tooltipTimeout) clearTimeout(tooltipTimeout);
+        tooltipTimeout = setTimeout(() => {
+            if (!tooltipEl.classList.contains("visible")) {
+                tooltipEl.style.display = "none";
+            }
+        }, 200);
+    }
+
+    // Keep tooltip active if hovering over the tooltip container itself
+    if (tooltipEl) {
+        tooltipEl.addEventListener("mouseleave", (e) => {
+            const related = e.relatedTarget;
+            if (related && (related === activeKeytermNode || activeKeytermNode?.contains(related))) {
+                return;
+            }
+            activeKeytermNode = null;
+            hideTooltip();
+        });
+    }
+
+    // Dismiss active tooltips on clicking elsewhere
+    document.addEventListener("click", () => {
+        activeKeytermNode = null;
+        hideTooltip();
+    });
+
+    // Safe, recursive DOM traversal to highlight vocabulary keywords exclusively in text nodes
+    function injectKeyterms(node, regex) {
+        if (node.nodeType === Node.TEXT_NODE) {
+            const text = node.textContent;
+            if (regex.test(text)) {
+                const temp = document.createElement("div");
+                temp.innerHTML = text.replace(regex, (match) => {
+                    const normalized = match.toLowerCase();
+                    return `<span class="keyterm" data-term="${normalized}">${match}</span>`;
+                });
+
+                const parent = node.parentNode;
+                while (temp.firstChild) {
+                    parent.insertBefore(temp.firstChild, node);
+                }
+                parent.removeChild(node);
+            }
+        } else if (
+            node.nodeType === Node.ELEMENT_NODE &&
+            node.tagName !== "A" &&
+            node.tagName !== "BUTTON" &&
+            !node.classList.contains("keyterm")
+        ) {
+            const children = Array.from(node.childNodes);
+            for (const child of children) {
+                injectKeyterms(child, regex);
+            }
+        }
+    }
+
+
     // Update Function (animates and injects data)
     function renderStep(index) {
         // Trigger CSS transition fade-out by removing class
@@ -99,7 +275,50 @@ document.addEventListener("DOMContentLoaded", () => {
             const step = lessonSteps[index];
             
             stepTitle.textContent = step.title;
-            stepContent.innerHTML = step.content; // Allows bolding/styling in descriptions
+
+            // Highlight matches dynamically using DOM tree walker
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = step.content;
+            if (typeof KEYTERMS !== 'undefined' && KEYTERMS) {
+                const terms = Object.keys(KEYTERMS).sort((a, b) => b.length - a.length);
+                if (terms.length > 0) {
+                    const escaped = terms.map(t => t.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&"));
+                    const regex = new RegExp(`\\b(${escaped.join("|")})\\b`, "gi");
+                    injectKeyterms(tempDiv, regex);
+                }
+            }
+
+            stepContent.innerHTML = "";
+            stepContent.appendChild(tempDiv);
+
+            // Bind individual mouse listeners to the keyterm tags
+            const keytermNodes = tempDiv.querySelectorAll(".keyterm");
+            keytermNodes.forEach(node => {
+                const term = node.getAttribute("data-term");
+
+                node.addEventListener("mouseenter", () => {
+                    if (activeKeytermNode !== node) {
+                        activeKeytermNode = node;
+                        showTooltip(node, term);
+                    }
+                });
+
+                node.addEventListener("mouseleave", (e) => {
+                    const related = e.relatedTarget;
+                    if (related && (related === tooltipEl || tooltipEl.contains(related))) {
+                        return;
+                    }
+                    activeKeytermNode = null;
+                    hideTooltip();
+                });
+
+                node.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    activeKeytermNode = node;
+                    showTooltip(node, term);
+                });
+            });
+
             progressText.textContent = `Progress: ${index + 1} of ${lessonSteps.length}`;
             
             // Trigger CSS transition fade-up
