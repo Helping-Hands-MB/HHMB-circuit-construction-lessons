@@ -211,7 +211,9 @@ document.addEventListener("DOMContentLoaded", () => {
             window.speechSynthesis.cancel(); // Cancel any active speech
             const utterance = new SpeechSynthesisUtterance(text);
             const locales = {
+                "en": "en-US",
                 "es": "es-ES",
+                "pt": "pt-BR",
                 "fr": "fr-FR",
                 "de": "de-DE"
             };
