@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Circuit Construction Lesson</title>
+    <title>Circuit Basics | HHMB Circuit Lessons</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- We link our external CSS file here so the browser knows how to style our page -->
-    <link rel="stylesheet" href="style.css">
+    <!-- Link to our shared CSS file relative to the lesson depth -->
+    <link rel="stylesheet" href="../shared/lesson-style.css">
 </head>
 <body>
     <div class="app-container">
@@ -20,6 +20,34 @@
                 </a>
                 <h1>Circuit Basics</h1>
             </header>
+
+            <!-- Width adjustment controls for custom panel sizes -->
+            <div class="panel-width-controls" aria-label="Sidebar width adjustments">
+                <div class="control-row">
+                    <span class="control-label">Width:</span>
+                    <div class="preset-buttons">
+                        <button type="button" id="btn-width-standard" class="preset-btn active" title="Standard width (350px)">Standard</button>
+                        <button type="button" id="btn-width-wide" class="preset-btn" title="Wide width (550px)">Wide</button>
+                    </div>
+                </div>
+                <div class="control-row slider-row">
+                    <input type="range" id="sidebar-width-slider" min="300" max="800" step="10" value="350" aria-label="Sidebar width slider">
+                    <span id="sidebar-width-display" class="width-val">350px</span>
+                </div>
+            </div>
+
+            <!-- Translation / Language controls -->
+            <div class="panel-language-controls" aria-label="Language translation settings">
+                <div class="control-row">
+                    <span class="control-label">Translate:</span>
+                    <div class="preset-buttons">
+                        <button type="button" class="preset-btn lang-btn active" data-lang="none" title="English / Off">Off</button>
+                        <button type="button" class="preset-btn lang-btn" data-lang="es" title="Español (Spanish)">ES</button>
+                        <button type="button" class="preset-btn lang-btn" data-lang="fr" title="Français (French)">FR</button>
+                        <button type="button" class="preset-btn lang-btn" data-lang="de" title="Deutsch (German)">DE</button>
+                    </div>
+                </div>
+            </div>
             
             <main class="lesson-content">
                 <div class="lesson-header">
@@ -27,7 +55,7 @@
                     <span id="progress-text" class="progress-indicator"></span>
                 </div>
                 
-                <!-- This is the container we'll animate and inject data into using JS -->
+                <!-- This container receives slide changes, animates and injects steps dynamically -->
                 <section class="lesson-step" id="step-container">
                     <h3 id="step-title">Loading...</h3>
                     <p id="step-content">Please wait.</p>
@@ -43,16 +71,35 @@
 
         <!-- Main Simulation Area -->
         <section class="simulation-container">
-            <!-- The iframe embeds another website (the PhET sim) directly into ours -->
             <iframe 
                 src="https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/latest/circuit-construction-kit-dc_en.html?screens=1" 
-                title="Circuit Construction Kit DC Simulation"
+                title="Circuit Basics Simulation"
                 allowfullscreen>
             </iframe>
         </section>
     </div>
 
-    <!-- We link our Javascript file at the bottom of the body so it loads after the HTML -->
-    <script src="script.js"></script>
+    <!-- Dynamic custom keyterm translation tooltip container -->
+    <div id="keyterm-tooltip" class="keyterm-tooltip" role="tooltip" style="display: none;">
+        <div class="tooltip-arrow"></div>
+        <div class="tooltip-header">
+            <span id="tooltip-original" class="original-word">term</span>
+            <button id="tooltip-pronounce" class="pronounce-btn" title="Listen to translation">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+            </button>
+        </div>
+        <div id="tooltip-translation" class="tooltip-translation">translation</div>
+        <div id="tooltip-definition" class="tooltip-definition">definition</div>
+    </div>
+
+    <!-- We load keyterms first so they are available to the engine -->
+    <script src="../shared/keyterms.js"></script>
+    <!-- We load the locally compiled steps generated from Markdown -->
+    <script src="steps.js"></script>
+    <!-- We link our shared Javascript logic containing button listeners and rendering engine -->
+    <script src="../shared/lesson-engine.js"></script>
 </body>
 </html>

@@ -45,6 +45,23 @@ const ICON_SVGs = {
 function build() {
     console.log('Starting interactive lesson compilation...');
 
+    // Generate keyterms.js from keyterms.json
+    const keytermsJsonPath = path.join(SHARED_DIR, 'keyterms.json');
+    const keytermsJsPath = path.join(SHARED_DIR, 'keyterms.js');
+    if (fs.existsSync(keytermsJsonPath)) {
+        try {
+            console.log('Compiling vocabulary keyterms...');
+            const keytermsContent = fs.readFileSync(keytermsJsonPath, 'utf8');
+            // Validate JSON
+            JSON.parse(keytermsContent);
+            const compiledJs = `// Auto-generated from keyterms.json. Do not edit directly.\nconst KEYTERMS = ${keytermsContent.trim()};\n`;
+            fs.writeFileSync(keytermsJsPath, compiledJs, 'utf8');
+            console.log('Success: Generated shared/keyterms.js');
+        } catch (e) {
+            console.error('Error compiling keyterms.json:', e);
+        }
+    }
+
     if (!fs.existsSync(LESSONS_DIR)) {
         console.error(`Error: _lessons directory does not exist at ${LESSONS_DIR}`);
         process.exit(1);
