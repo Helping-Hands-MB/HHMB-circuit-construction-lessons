@@ -14,37 +14,62 @@
     <div class="app-container">
         <!-- Sidebar for Lesson Text -->
         <aside class="tutorial-panel">
-            <header>
-                <a href="https://helpinghandsmb.org" target="_blank" rel="noopener noreferrer">
-                    <img src="{{RELATIVE_PATH}}resources/HHMB%20Logo%20Square%20w%20Text%20png.png" alt="HHMB Logo" class="brand-logo">
-                </a>
-                <h1>{{TITLE}}</h1>
+            <header class="tutorial-header">
+                <div class="header-brand">
+                    <a href="https://helpinghandsmb.org" target="_blank" rel="noopener noreferrer">
+                        <img src="{{RELATIVE_PATH}}resources/HHMB%20Logo%20Square%20w%20Text%20png.png" alt="HHMB Logo" class="brand-logo">
+                    </a>
+                    <h1>{{TITLE}}</h1>
+                </div>
+                <button type="button" id="settings-toggle-btn" class="settings-toggle-btn" title="Settings" aria-label="Toggle settings panel" aria-expanded="false">
+                    <svg class="settings-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                </button>
             </header>
 
-            <!-- Width adjustment controls for custom panel sizes -->
-            <div class="panel-width-controls" aria-label="Sidebar width adjustments">
-                <div class="control-row">
-                    <span class="control-label">Width:</span>
-                    <div class="preset-buttons">
-                        <button type="button" id="btn-width-standard" class="preset-btn active" title="Standard width (350px)">Standard</button>
-                        <button type="button" id="btn-width-wide" class="preset-btn" title="Wide width (550px)">Wide</button>
+            <!-- Interactive Settings Overlay Panel -->
+            <div id="settings-panel" class="settings-panel" aria-label="Settings panel">
+                <div class="settings-panel-header">
+                    <h3>Lesson Settings</h3>
+                    <button type="button" id="settings-close-btn" class="settings-close-btn" title="Close Settings" aria-label="Close settings panel">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <div class="settings-panel-body">
+                    <!-- Sidebar Width Preference Group -->
+                    <div class="setting-group">
+                        <div class="setting-label-row">
+                            <span class="setting-title">Sidebar Width</span>
+                            <span id="sidebar-width-display" class="width-val">350px</span>
+                        </div>
+                        <div class="setting-control-row">
+                            <div class="preset-buttons">
+                                <button type="button" id="btn-width-standard" class="preset-btn active" title="Standard width (350px)">Standard</button>
+                                <button type="button" id="btn-width-wide" class="preset-btn" title="Wide width (550px)">Wide</button>
+                            </div>
+                        </div>
+                        <div class="setting-control-row slider-row">
+                            <input type="range" id="sidebar-width-slider" min="300" max="800" step="10" value="350" aria-label="Sidebar width slider">
+                        </div>
                     </div>
-                </div>
-                <div class="control-row slider-row">
-                    <input type="range" id="sidebar-width-slider" min="300" max="800" step="10" value="350" aria-label="Sidebar width slider">
-                    <span id="sidebar-width-display" class="width-val">350px</span>
-                </div>
-            </div>
 
-            <!-- Translation / Language controls -->
-            <div class="panel-language-controls" aria-label="Language translation settings">
-                <div class="control-row">
-                    <span class="control-label">Translate:</span>
-                    <div class="preset-buttons">
-                        <button type="button" class="preset-btn lang-btn active" data-lang="none" title="English / Off">Off</button>
-                        <button type="button" class="preset-btn lang-btn" data-lang="es" title="Español (Spanish)">ES</button>
-                        <button type="button" class="preset-btn lang-btn" data-lang="fr" title="Français (French)">FR</button>
-                        <button type="button" class="preset-btn lang-btn" data-lang="de" title="Deutsch (German)">DE</button>
+                    <!-- Translation Preference Group -->
+                    <div class="setting-group">
+                        <span class="setting-title">Keyterm Translation</span>
+                        <div class="setting-control-row">
+                            <div class="preset-buttons">
+                                <button type="button" class="preset-btn lang-btn active" data-lang="none" title="English / Off">Off</button>
+                                <button type="button" class="preset-btn lang-btn" data-lang="es" title="Español (Spanish)">ES</button>
+                                <button type="button" class="preset-btn lang-btn" data-lang="fr" title="Français (French)">FR</button>
+                                <button type="button" class="preset-btn lang-btn" data-lang="de" title="Deutsch (German)">DE</button>
+                            </div>
+                        </div>
+                        <p class="setting-help-text">Choose a language and hover or click on underlined keyterms in the guide for instant translations.</p>
                     </div>
                 </div>
             </div>

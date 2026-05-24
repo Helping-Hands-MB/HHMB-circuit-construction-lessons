@@ -20,6 +20,77 @@ document.addEventListener("DOMContentLoaded", () => {
     const nextBtn = document.getElementById("next-btn");
     const resetBtn = document.getElementById("reset-btn");
 
+    // --- Settings Panel Toggle Logic ---
+    const settingsToggleBtn = document.getElementById("settings-toggle-btn");
+    const settingsCloseBtn = document.getElementById("settings-close-btn");
+    const settingsPanel = document.getElementById("settings-panel");
+
+    function toggleSettingsPanel() {
+        const isOpen = settingsPanel.classList.contains("open");
+        if (isOpen) {
+            closeSettingsPanel();
+        } else {
+            openSettingsPanel();
+        }
+    }
+
+    function openSettingsPanel() {
+        if (settingsPanel) {
+            settingsPanel.classList.add("open");
+        }
+        if (settingsToggleBtn) {
+            settingsToggleBtn.classList.add("active");
+            settingsToggleBtn.setAttribute("aria-expanded", "true");
+        }
+    }
+
+    function closeSettingsPanel() {
+        if (settingsPanel) {
+            settingsPanel.classList.remove("open");
+        }
+        if (settingsToggleBtn) {
+            settingsToggleBtn.classList.remove("active");
+            settingsToggleBtn.setAttribute("aria-expanded", "false");
+        }
+    }
+
+    if (settingsToggleBtn) {
+        settingsToggleBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleSettingsPanel();
+        });
+    }
+
+    if (settingsCloseBtn) {
+        settingsCloseBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            closeSettingsPanel();
+        });
+    }
+
+    // Close on click outside settings panel
+    document.addEventListener("click", (e) => {
+        if (settingsPanel && settingsPanel.classList.contains("open")) {
+            if (!settingsPanel.contains(e.target) && !settingsToggleBtn.contains(e.target)) {
+                closeSettingsPanel();
+            }
+        }
+    });
+
+    // Prevent closing when clicking inside the settings panel itself
+    if (settingsPanel) {
+        settingsPanel.addEventListener("click", (e) => {
+            e.stopPropagation();
+        });
+    }
+
+    // Close on Escape key press
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && settingsPanel && settingsPanel.classList.contains("open")) {
+            closeSettingsPanel();
+        }
+    });
+
     // --- Sidebar Width Controller Logic ---
     const btnWidthStandard = document.getElementById("btn-width-standard");
     const btnWidthWide = document.getElementById("btn-width-wide");
