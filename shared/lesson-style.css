@@ -64,147 +64,241 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     flex-direction: column;
     height: 100%;
+    position: relative; /* Anchor for absolute settings panel positioning */
 }
 
-.tutorial-panel header {
-    padding: 1.5rem;
+.tutorial-header {
+    padding: 1rem 1.5rem;
     border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--panel-bg);
+    position: relative;
+    z-index: 1001;
+}
+
+.header-brand {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.tutorial-panel header a {
+.header-brand a {
     display: flex;
     align-items: center;
 }
 
 .brand-logo {
-    width: 85px;
+    width: 70px;
     height: auto;
     object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+.brand-logo:hover {
+    transform: scale(1.05);
 }
 
 .tutorial-panel header h1 {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     color: var(--text-primary);
     margin: 0;
     line-height: 1.1;
 }
 
-/* Width Adjustment Controls (Sidebar Width Settings) */
-.panel-width-controls {
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--border-color);
-    background: linear-gradient(180deg, #ffffff 0%, #fbfbfc 100%);
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.panel-width-controls .control-row {
+/* Settings Toggle Button with elegant animation */
+.settings-toggle-btn {
+    background: none;
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
 }
 
-.panel-width-controls .control-label {
-    font-size: 0.85rem;
+.settings-toggle-btn:hover {
+    color: var(--accent-color);
+    background-color: var(--bg-color);
+    border-color: var(--border-color);
+}
+
+.settings-toggle-btn.active {
+    color: var(--accent-hover);
+    background-color: rgba(137, 137, 235, 0.1);
+}
+
+.settings-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.settings-toggle-btn:hover .settings-icon {
+    transform: rotate(90deg);
+}
+
+.settings-toggle-btn.active .settings-icon {
+    transform: rotate(180deg);
+}
+
+/* Settings Panel Popover Styling */
+.settings-panel {
+    position: absolute;
+    top: 65px;
+    left: 12px;
+    right: 12px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    z-index: 1000;
+    
+    /* Animation states */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px) scale(0.98);
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                visibility 0.2s;
+}
+
+.settings-panel.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+/* Settings Header */
+.settings-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.settings-panel-header h3 {
+    font-size: 0.95rem;
+    margin: 0;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.settings-close-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.settings-close-btn:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-color);
+}
+
+.settings-close-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Settings Body & Layout */
+.settings-panel-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.setting-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    padding-bottom: 16px;
+}
+
+.setting-group:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.setting-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.setting-title {
+    font-size: 0.8rem;
     font-weight: 600;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.panel-width-controls .preset-buttons {
+.setting-control-row {
     display: flex;
-    gap: 0.5rem;
+    align-items: center;
+    gap: 12px;
 }
 
-.panel-width-controls .preset-btn {
+.setting-help-text {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-top: 4px;
+}
+
+/* Re-use preset buttons styled for settings popover */
+.settings-panel .preset-buttons {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.settings-panel .preset-btn {
     padding: 0.35rem 0.75rem;
     font-size: 0.8rem;
     font-weight: 500;
     color: var(--text-secondary);
     background-color: #ffffff;
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 20px;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.panel-width-controls .preset-btn:hover {
+.settings-panel .preset-btn:hover {
     border-color: var(--accent-color);
     color: var(--text-primary);
     background-color: var(--bg-color);
 }
 
-.panel-width-controls .preset-btn.active {
+.settings-panel .preset-btn.active {
     background-color: var(--accent-color);
     color: #ffffff;
     border-color: var(--accent-color);
     box-shadow: 0 2px 8px rgba(137, 137, 235, 0.4);
 }
 
-/* Custom Slider Styling */
-.panel-width-controls .slider-row {
-    gap: 12px;
-}
-
-.panel-width-controls #sidebar-width-slider {
-    flex-grow: 1;
-    -webkit-appearance: none;
-    appearance: none;
-    height: 6px;
-    border-radius: 3px;
-    background: #e2e8f0;
-    outline: none;
-    cursor: pointer;
-    transition: background 0.15s ease;
-}
-
-.panel-width-controls #sidebar-width-slider:hover {
-    background: #cbd5e1;
-}
-
-/* Custom Webkit Thumb */
-.panel-width-controls #sidebar-width-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--accent-color);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-    border: 2px solid #ffffff;
-    transition: transform 0.1s ease, background-color 0.1s ease;
-}
-
-.panel-width-controls #sidebar-width-slider::-webkit-slider-thumb:hover {
-    transform: scale(1.2);
-    background: var(--accent-hover);
-    box-shadow: 0 2px 6px rgba(137, 137, 235, 0.5);
-}
-
-/* Custom Firefox Thumb */
-.panel-width-controls #sidebar-width-slider::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
-    border: 2px solid #ffffff;
-    border-radius: 50%;
-    background: var(--accent-color);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-    cursor: pointer;
-    transition: transform 0.1s ease, background-color 0.1s ease;
-}
-
-.panel-width-controls #sidebar-width-slider::-moz-range-thumb:hover {
-    transform: scale(1.2);
-    background: var(--accent-hover);
-    box-shadow: 0 2px 6px rgba(137, 137, 235, 0.5);
-}
-
-.panel-width-controls .width-val {
+/* Width display label inside panel */
+.settings-panel .width-val {
     font-family: monospace;
     font-size: 0.85rem;
     font-weight: 600;
@@ -215,6 +309,60 @@ h1, h2, h3, h4, h5, h6 {
     border: 1px solid var(--border-color);
     min-width: 50px;
     text-align: center;
+}
+
+/* Slider Row */
+.settings-panel .slider-row {
+    width: 100%;
+}
+
+.settings-panel #sidebar-width-slider {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: #e2e8f0;
+    outline: none;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.settings-panel #sidebar-width-slider:hover {
+    background: #cbd5e1;
+}
+
+.settings-panel #sidebar-width-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    border: 2px solid #ffffff;
+    transition: transform 0.1s ease, background-color 0.1s ease;
+}
+
+.settings-panel #sidebar-width-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.25);
+    background: var(--accent-hover);
+}
+
+.settings-panel #sidebar-width-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    background: var(--accent-color);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: transform 0.1s ease, background-color 0.1s ease;
+}
+
+.settings-panel #sidebar-width-slider::-moz-range-thumb:hover {
+    transform: scale(1.25);
+    background: var(--accent-hover);
 }
 
 .lesson-content {
@@ -367,58 +515,6 @@ button:disabled {
 }
 
 /* 8. Translation & Language Feature Styles */
-.panel-language-controls {
-    padding: 0.75rem 1.5rem;
-    border-bottom: 1px solid var(--border-color);
-    background: linear-gradient(180deg, #ffffff 0%, #fbfbfc 100%);
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.panel-language-controls .control-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.panel-language-controls .control-label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.panel-language-controls .preset-buttons {
-    display: flex;
-    gap: 0.35rem;
-}
-
-.panel-language-controls .preset-btn {
-    padding: 0.35rem 0.65rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    background-color: #ffffff;
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.panel-language-controls .preset-btn:hover {
-    border-color: var(--accent-color);
-    color: var(--text-primary);
-    background-color: var(--bg-color);
-}
-
-.panel-language-controls .preset-btn.active {
-    background-color: var(--accent-color);
-    color: #ffffff;
-    border-color: var(--accent-color);
-    box-shadow: 0 2px 8px rgba(137, 137, 235, 0.4);
-}
 
 /* Keyterm Highlights (only styled when translation mode is active) */
 .translation-enabled .keyterm {
@@ -549,9 +645,11 @@ button:disabled {
     border-bottom: 6px solid rgba(15, 23, 42, 0.95);
 }
 
-/* Hide language presets on mobile */
+/* Responsive media query adjustments for Settings Popover */
 @media (max-width: 768px) {
-    .panel-language-controls {
-        display: none !important;
+    .settings-panel {
+        top: 55px;
+        left: 8px;
+        right: 8px;
     }
 }
