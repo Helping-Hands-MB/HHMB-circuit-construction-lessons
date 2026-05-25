@@ -2,6 +2,7 @@
 title: Helping Hands MB Circuit Basics Lessons
 badge: Physics
 icon: electricity
+simulator: https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/latest/circuit-construction-kit-dc_en.html?screens=1
 description: Learn the fundamentals of electricity by building and simulating your own interactive circuits. Targeted for 4th/5th graders.
 ---
 
