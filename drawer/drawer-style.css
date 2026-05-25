@@ -1,0 +1,419 @@
+/* drawer-style.css */
+
+/* Base Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-dark: #0f172a;          /* Deep slate */
+    --panel-bg: rgba(30, 41, 59, 0.85); /* Slate glass */
+    --border-color: rgba(255, 255, 255, 0.08);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    
+    /* Matches corporate brand theme colors */
+    --accent-color: #8989eb;     /* Unified brand purple */
+    --accent-hover: #7575d6;
+    --accent-glow: rgba(137, 137, 235, 0.25);
+    
+    /* Grid colors for building blocks */
+    --grass-base: #f1f5f9;       /* Slate-white base land */
+    --grass-grid: #e2e8f0;       /* Border dividers */
+    
+    --limits-color: rgba(137, 137, 235, 0.15);
+    --neighborhood-color: #fdba74; /* Warm orange-yellow */
+    --business-color: #60a5fa;     /* Business blue */
+    --park-color: #4ade80;         /* Tree green */
+    --road-color: #475569;         /* Asphalt slate */
+    --path-color: #f0e6d2;         /* Walkway sand */
+    --track-color: #7c2d12;        /* Train wood brown */
+    --water-color: #38bdf8;        /* River blue */
+}
+
+body {
+    font-family: Arial, Calibri, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    overflow: hidden;
+    height: 100vh;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+}
+
+/* Master Layout */
+.drawer-container {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* 1. Sidebar Toolbar */
+.toolbar-panel {
+    background-color: var(--panel-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-right: 1px solid var(--border-color);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.toolbar-header {
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 12px;
+}
+
+.toolbar-header h2 {
+    font-size: 1.35rem;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+}
+
+.toolbar-header p {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* Tools Selection Grid */
+.tools-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    overflow-y: auto;
+    flex-grow: 1;
+    padding-right: 2px;
+}
+
+/* Custom Scrollbar for Tools list */
+.tools-grid::-webkit-scrollbar {
+    width: 4px;
+}
+.tools-grid::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+/* Interactive Brushes Buttons */
+.tool-btn {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+    text-align: left;
+    user-select: none;
+}
+
+.tool-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--text-primary);
+    transform: translateY(-1px);
+}
+
+.tool-btn.active {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: #ffffff;
+    box-shadow: 0 4px 12px var(--accent-glow);
+    transform: none;
+}
+
+/* Brush Tool Icons */
+.tool-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.tool-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+}
+
+.tool-btn.active .tool-icon svg {
+    stroke: #ffffff;
+}
+
+/* Tool Label text styling */
+.tool-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Toolbar Footer */
+.toolbar-footer {
+    margin-top: auto;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.clear-btn {
+    width: 100%;
+    padding: 10px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.clear-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.4);
+    transform: scale(1.01);
+}
+
+.clear-btn:active {
+    transform: scale(0.99);
+}
+
+.autosave-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.indicator-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #10b981; /* Healthy green */
+    border-radius: 50%;
+    animation: blink 2s infinite ease-in-out;
+}
+
+.indicator-text {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.2px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+}
+
+/* 2. Main Canvas Panel */
+.canvas-panel {
+    background-color: var(--bg-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+
+/* Grid Layout styling */
+.grid-canvas {
+    display: grid;
+    /* 20 columns and 15 rows */
+    grid-template-columns: repeat(20, 1fr);
+    grid-template-rows: repeat(15, 1fr);
+    
+    aspect-ratio: 4 / 3;
+    max-height: 90vh;
+    max-width: 90%;
+    width: 100%;
+    background-color: var(--grass-base);
+    border: 3px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    user-select: none;
+}
+
+/* Individual Grid Cells */
+.grid-cell {
+    border-right: 1px solid var(--grass-grid);
+    border-bottom: 1px solid var(--grass-grid);
+    aspect-ratio: 1;
+    position: relative;
+    cursor: crosshair;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    transition: background-color 0.15s ease, box-shadow 0.1s ease;
+}
+
+/* Clean up cell borders on final cells */
+.grid-cell:nth-child(20n) {
+    border-right: none;
+}
+
+.grid-cell:nth-last-child(-n+20) {
+    border-bottom: none;
+}
+
+/* Cell Hover painting preview */
+.grid-cell::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0);
+    transition: background-color 0.1s ease;
+}
+
+.grid-cell:hover::after {
+    background-color: rgba(137, 137, 235, 0.15); /* Hover glow */
+}
+
+/* 3. Customizable Cell Visual Classes (For Human Artist Styling) */
+
+/* SVGs inserted inside cells */
+.grid-cell svg {
+    width: 80%;
+    height: 80%;
+    z-index: 2;
+    pointer-events: none;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.grid-cell:hover svg {
+    transform: scale(1.08);
+}
+
+/* Neighborhood Class */
+.grid-cell.tile-neighborhood {
+    background-color: var(--neighborhood-color);
+    box-shadow: inset 0 0 10px rgba(253, 186, 116, 0.4);
+}
+
+/* Business Class */
+.grid-cell.tile-business {
+    background-color: var(--business-color);
+    box-shadow: inset 0 0 10px rgba(96, 165, 250, 0.4);
+}
+
+/* Park Class */
+.grid-cell.tile-park {
+    background-color: var(--park-color);
+    box-shadow: inset 0 0 10px rgba(74, 222, 128, 0.4);
+}
+
+/* Road Class */
+.grid-cell.tile-road {
+    background-color: var(--road-color);
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Walkway Path Class */
+.grid-cell.tile-path {
+    background-color: var(--path-color);
+    box-shadow: inset 0 0 6px rgba(124, 45, 18, 0.1);
+}
+
+/* Train Track Class */
+.grid-cell.tile-track {
+    background-color: var(--track-color);
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Water Class */
+.grid-cell.tile-water {
+    background-color: var(--water-color);
+    box-shadow: inset 0 0 12px rgba(56, 189, 248, 0.5);
+}
+
+/* City Limits Boundary Class (Shaded overlay effect) */
+.grid-cell.tile-limits::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    border: 2px dashed var(--accent-color);
+    border-radius: 4px;
+    background-color: var(--limits-color);
+    z-index: 1;
+    pointer-events: none;
+    animation: pulseBorder 3s infinite alternate;
+}
+
+@keyframes pulseBorder {
+    0% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+/* Tool icon preview color blocks on toolbar pane list */
+.icon-limits { background-color: var(--limits-color); border: 1.5px dashed var(--accent-color); }
+.icon-neighborhood { background-color: var(--neighborhood-color); }
+.icon-business { background-color: var(--business-color); }
+.icon-park { background-color: var(--park-color); }
+.icon-road { background-color: var(--road-color); }
+.icon-path { background-color: var(--path-color); }
+.icon-track { background-color: var(--track-color); }
+.icon-water { background-color: var(--water-color); }
+
+.icon-eraser {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive adjustment */
+@media (max-width: 900px) {
+    .drawer-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+    }
+    
+    .toolbar-panel {
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding: 0.75rem;
+    }
+    
+    .toolbar-header, .toolbar-footer {
+        display: none !important;
+    }
+    
+    .tools-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+    
+    .tool-btn {
+        padding: 6px 10px;
+    }
+}
