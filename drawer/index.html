@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HHMB City Planner Map Drawer</title>
+    <!-- Link to Oswald font for heads -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="drawer-style.css">
+</head>
+<body>
+    <div class="drawer-container">
+        <!-- Sidebar Toolbar -->
+        <aside class="toolbar-panel">
+            <div class="toolbar-header">
+                <h2>Planner Tools</h2>
+                <p>Select a brush below and click/drag on the grid to design your city!</p>
+            </div>
+            
+            <div class="tools-grid">
+                <!-- City Limits -->
+                <button type="button" class="tool-btn active" data-tool="limits" title="City Limits Brush">
+                    <div class="tool-icon icon-limits"></div>
+                    <span class="tool-label">City Limits</span>
+                </button>
+                
+                <!-- Neighborhood -->
+                <button type="button" class="tool-btn" data-tool="neighborhood" title="Neighborhood (Homes) Brush">
+                    <div class="tool-icon icon-neighborhood"></div>
+                    <span class="tool-label">Neighborhood</span>
+                </button>
+                
+                <!-- Business -->
+                <button type="button" class="tool-btn" data-tool="business" title="Business (Shops/Offices) Brush">
+                    <div class="tool-icon icon-business"></div>
+                    <span class="tool-label">Business</span>
+                </button>
+                
+                <!-- Park -->
+                <button type="button" class="tool-btn" data-tool="park" title="Park (Green Space) Brush">
+                    <div class="tool-icon icon-park"></div>
+                    <span class="tool-label">Park / Trees</span>
+                </button>
+                
+                <!-- Road -->
+                <button type="button" class="tool-btn" data-tool="road" title="Road Brush">
+                    <div class="tool-icon icon-road"></div>
+                    <span class="tool-label">Road</span>
+                </button>
+                
+                <!-- Path -->
+                <button type="button" class="tool-btn" data-tool="path" title="Walkway/Path Brush">
+                    <div class="tool-icon icon-path"></div>
+                    <span class="tool-label">Walkway</span>
+                </button>
+                
+                <!-- Train Track -->
+                <button type="button" class="tool-btn" data-tool="track" title="Train Track Brush">
+                    <div class="tool-icon icon-track"></div>
+                    <span class="tool-label">Train Track</span>
+                </button>
+                
+                <!-- Water -->
+                <button type="button" class="tool-btn" data-tool="water" title="Water (River/Lake) Brush">
+                    <div class="tool-icon icon-water"></div>
+                    <span class="tool-label">Water</span>
+                </button>
+                
+                <!-- Eraser -->
+                <button type="button" class="tool-btn tool-eraser" data-tool="eraser" title="Eraser Tool">
+                    <div class="tool-icon icon-eraser"></div>
+                    <span class="tool-label">Eraser</span>
+                </button>
+            </div>
+            
+            <div class="toolbar-footer">
+                <button type="button" id="clear-btn" class="clear-btn" title="Reset current canvas">Clear All</button>
+                <div class="autosave-indicator">
+                    <span class="indicator-dot"></span>
+                    <span class="indicator-text">Auto-Saved</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Map Area -->
+        <main class="canvas-panel">
+            <div id="grid-canvas" class="grid-canvas" aria-label="City construction grid canvas">
+                <!-- Generated dynamically by drawer.js -->
+            </div>
+        </main>
+    </div>
+
+    <script src="drawer.js"></script>
+</body>
+</html>
