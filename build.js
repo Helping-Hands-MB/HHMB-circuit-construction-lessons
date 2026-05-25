@@ -141,9 +141,11 @@ function build() {
         const relativePath = '../';
         
         // Hydrate the layout template
+        const simulatorPath = metadata.simulator || "https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/latest/circuit-construction-kit-dc_en.html?screens=1";
         let hydratedHtml = lessonTemplate
             .replace(/{{TITLE}}/g, metadata.title)
-            .replace(/{{RELATIVE_PATH}}/g, relativePath);
+            .replace(/{{RELATIVE_PATH}}/g, relativePath)
+            .replace(/{{SIMULATOR_PATH}}/g, simulatorPath);
 
         // Generate output directory
         const outputDir = path.join(__dirname, lessonId);
