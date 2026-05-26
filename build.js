@@ -12,6 +12,19 @@ marked.setOptions({
     breaks: true
 });
 
+const renderer = {
+    link(href, title, text) {
+        const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([^& \n<]+)(?:[^ \n<]*)/;
+        const match = href.match(ytRegex);
+        if (match && match[1]) {
+            const videoId = match[1];
+            return `<div class="video-container"><iframe src="https://www.youtube.com/embed/${videoId}" title="${text || 'YouTube video'}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+        }
+        return false;
+    }
+};
+marked.use({ renderer });
+
 const LESSONS_DIR = path.join(__dirname, '_lessons');
 const TEMPLATES_DIR = path.join(__dirname, '_templates');
 const SHARED_DIR = path.join(__dirname, 'shared');

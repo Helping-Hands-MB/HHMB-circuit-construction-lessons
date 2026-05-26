@@ -355,7 +355,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error("DOMPurify is not loaded! Halting render for security.");
                 return;
             }
-            tempDiv.innerHTML = DOMPurify.sanitize(step.content);
+
+            // Configure DOMPurify to allow iframe and its necessary attributes
+            const purifyConfig = { ADD_TAGS: ['iframe'], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] };
+            tempDiv.innerHTML = DOMPurify.sanitize(step.content, purifyConfig);
+
             if (typeof KEYTERMS !== 'undefined' && KEYTERMS) {
                 const terms = Object.keys(KEYTERMS).sort((a, b) => b.length - a.length);
                 if (terms.length > 0) {
