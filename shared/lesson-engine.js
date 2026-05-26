@@ -351,7 +351,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Highlight matches dynamically using DOM tree walker
             const tempDiv = document.createElement("div");
-            tempDiv.innerHTML = step.content;
+            if (typeof DOMPurify === "undefined") {
+                console.error("DOMPurify is not loaded! Halting render for security.");
+                return;
+            }
+            tempDiv.innerHTML = DOMPurify.sanitize(step.content);
             if (typeof KEYTERMS !== 'undefined' && KEYTERMS) {
                 const terms = Object.keys(KEYTERMS).sort((a, b) => b.length - a.length);
                 if (terms.length > 0) {
