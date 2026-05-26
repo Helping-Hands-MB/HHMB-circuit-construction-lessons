@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const gridCanvas = document.getElementById("grid-canvas");
     const toolBtns = document.querySelectorAll(".tool-btn");
     const clearBtn = document.getElementById("clear-btn");
+    const exportBtn = document.getElementById("export-btn");
     const saveIndicator = document.querySelector(".autosave-indicator");
 
     // --- ARTIST GRAPHICS CUSTOMIZATION DICTIONARY ---
@@ -287,6 +288,41 @@ document.addEventListener("DOMContentLoaded", () => {
             activeTool = btn.getAttribute("data-tool");
         });
     });
+
+    // --- Export Button Action ---
+    if (exportBtn) {
+        exportBtn.addEventListener("click", () => {
+            if (typeof html2canvas === 'undefined') {
+                alert('Export library not loaded yet. Please try again in a moment.');
+                return;
+            }
+
+            // Add a temporary class to grid-canvas to ensure it looks good for export if needed
+            gridCanvas.classList.add('exporting');
+
+            // Temporary fix for SVG issue with html2canvas (sometimes doesn't render inline SVG well)
+            // It might just work fine with the current html2canvas version
+
+            html2canvas(gridCanvas, {
+                backgroundColor: '#ffffff', // Ensure white background
+                scale: 2, // Higher resolution
+                logging: false,
+                useCORS: true
+            }).then(canvas => {
+                gridCanvas.classList.remove('exporting');
+
+                // Create download link
+                const link = document.createElement('a');
+                link.download = 'hhmb-city-plan.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            }).catch(err => {
+                console.error("Error exporting canvas:", err);
+                alert("Sorry, there was an error exporting your map.");
+                gridCanvas.classList.remove('exporting');
+            });
+        });
+    }
 
     // --- Clear All Action ---
     if (clearBtn) {
