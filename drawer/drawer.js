@@ -7,10 +7,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const GRID_ROWS = 15;
     const TOTAL_CELLS = GRID_COLS * GRID_ROWS;
     const LOCAL_STORAGE_KEY = "hhmb-city-grid-state";
+    const CUSTOM_GRAPHICS_KEY = "hhmb-city-custom-graphics";
 
     let activeTool = "limits"; // Default active brush
     let isDrawing = false;      // Drag paint gate state
     let gridState = [];         // Array to track state of each cell [{type: null, limits: false}]
+    let customGraphics = {};    // Object to track custom drawings mapping tool to 64 color strings/nulls
 
     // Grab Elements
     const gridCanvas = document.getElementById("grid-canvas");
@@ -107,6 +109,44 @@ document.addEventListener("DOMContentLoaded", () => {
             </svg>
         `
     };
+
+    // Backup default premium SVGs
+    const DEFAULT_TILE_GRAPHICS = Object.assign({}, TILE_GRAPHICS);
+
+    // --- Dynamic SVG Builder for Custom 8x8 Pixel-Art Drawings ---
+    function generateCustomSVG(pixelData) {
+        let svg = `<svg viewBox="0 0 8 8" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">`;
+        for (let r = 0; r < 8; r++) {
+            for (let c = 0; c < 8; c++) {
+                const color = pixelData[r * 8 + c];
+                if (color) {
+                    // Slight sub-pixel bleed overlap to prevent thin rendering gap lines in some browsers
+                    svg += `<rect x="${c}" y="${r}" width="1.05" height="1.05" fill="${color}" stroke="${color}" stroke-width="0.05" />`;
+                }
+            }
+        }
+        svg += `</svg>`;
+        return svg;
+    }
+
+    // Load custom graphics from localStorage and apply them to TILE_GRAPHICS dictionary
+    function loadCustomGraphics() {
+        const saved = localStorage.getItem(CUSTOM_GRAPHICS_KEY);
+        if (saved) {
+            try {
+                customGraphics = JSON.parse(saved);
+                for (const tool in customGraphics) {
+                    if (customGraphics[tool]) {
+                        TILE_GRAPHICS[tool] = generateCustomSVG(customGraphics[tool]);
+                    }
+                }
+            } catch (e) {
+                console.error("Error loading custom graphics:", e);
+            }
+        }
+    }
+
+    loadCustomGraphics();
 
     // Populate SVGs for toolbox buttons
     toolBtns.forEach(btn => {
@@ -270,6 +310,305 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("message", (e) => {
         if (e.data && e.data.action === "resetMap") {
             resetGrid();
+        }
+    });
+
+    // --- PIXEL GRAPHIC EDITOR MODAL CONTROLLER ---
+    
+    // Grab Modal Elements
+    const editorModal = document.getElementById("editor-modal");
+    const editorGrid = document.getElementById("editor-grid");
+    const editorTitle = document.getElementById("editor-tool-title");
+    const editBtns = document.querySelectorAll(".edit-btn");
+    const modalCloseHeaderBtn = document.getElementById("modal-close-header-btn");
+    const editorToolPencil = document.getElementById("editor-tool-pencil");
+    const editorToolEraser = document.getElementById("editor-tool-eraser");
+    const editorToolFill = document.getElementById("editor-tool-fill");
+    const paletteColors = document.querySelectorAll(".palette-color");
+    const editorColorPicker = document.getElementById("editor-color-picker");
+    const previewLarge = document.getElementById("preview-large");
+    const previewSmall = document.getElementById("preview-small");
+    const editorBtnRestore = document.getElementById("editor-btn-restore");
+    const editorBtnClear = document.getElementById("editor-btn-clear");
+    const editorBtnCancel = document.getElementById("editor-btn-cancel");
+    const editorBtnSave = document.getElementById("editor-btn-save");
+
+    let currentEditingTool = null;
+    let editorPixelData = Array(64).fill(null);
+    let editorActiveColor = "#f97316"; 
+    let editorActiveTool = "pencil"; // pencil, eraser
+    let editorIsDrawing = false;
+
+    // Open Editor Modal for a specific tool
+    editBtns.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.stopPropagation(); // Avoid triggering any tool-btn click event
+            
+            currentEditingTool = btn.getAttribute("data-tool");
+            if (!currentEditingTool) return;
+
+            // Automatically switch the active sidebar tool to this tool for convenience
+            const correspondingToolBtn = document.querySelector(`.tool-btn[data-tool="${currentEditingTool}"]`);
+            if (correspondingToolBtn) {
+                toolBtns.forEach(b => b.classList.remove("active"));
+                correspondingToolBtn.classList.add("active");
+                activeTool = currentEditingTool;
+            }
+
+            // Update title with tool name (capitalized)
+            const toolNameDisplay = currentEditingTool.charAt(0).toUpperCase() + currentEditingTool.slice(1);
+            editorTitle.textContent = toolNameDisplay;
+
+            // Load existing custom pixel data or start with transparent/empty grid
+            if (customGraphics[currentEditingTool]) {
+                editorPixelData = [...customGraphics[currentEditingTool]];
+            } else {
+                editorPixelData = Array(64).fill(null);
+            }
+
+            // Sync Palette Active Color with current tool color preview block
+            const defaultColors = {
+                neighborhood: "#f97316",
+                business: "#3b82f6",
+                park: "#10b981",
+                road: "#475569",
+                path: "#d97706",
+                track: "#78350f",
+                water: "#0284c7"
+            };
+
+            const initialColor = defaultColors[currentEditingTool] || "#f97316";
+            setEditorActiveColor(initialColor);
+
+            // Highlight the matching palette button if it exists
+            paletteColors.forEach(pBtn => {
+                if (pBtn.getAttribute("data-color") === initialColor) {
+                    paletteColors.forEach(p => p.classList.remove("active"));
+                    pBtn.classList.add("active");
+                }
+            });
+
+            // Reset tools
+            setEditorActiveTool("pencil");
+
+            // Render grid
+            renderEditorGrid();
+
+            // Display modal
+            editorModal.classList.remove("hidden");
+            editorModal.setAttribute("aria-hidden", "false");
+        });
+    });
+
+    function setEditorActiveColor(color) {
+        editorActiveColor = color;
+        editorColorPicker.value = color;
+    }
+
+    function setEditorActiveTool(tool) {
+        editorActiveTool = tool;
+        editorToolPencil.classList.remove("active");
+        editorToolEraser.classList.remove("active");
+        
+        if (tool === "pencil") {
+            editorToolPencil.classList.add("active");
+        } else if (tool === "eraser") {
+            editorToolEraser.classList.add("active");
+        }
+    }
+
+    function renderEditorGrid() {
+        editorGrid.innerHTML = "";
+        for (let i = 0; i < 64; i++) {
+            const pixel = document.createElement("div");
+            pixel.classList.add("pixel-square");
+            pixel.setAttribute("data-index", i);
+
+            // Fill color if it exists
+            if (editorPixelData[i]) {
+                pixel.style.backgroundColor = editorPixelData[i];
+            }
+
+            // Click/drag drawing listeners
+            pixel.addEventListener("mousedown", (e) => {
+                e.preventDefault();
+                editorIsDrawing = true;
+                paintEditorPixel(i, pixel);
+            });
+
+            pixel.addEventListener("mouseenter", () => {
+                if (editorIsDrawing) {
+                    paintEditorPixel(i, pixel);
+                }
+            });
+
+            editorGrid.appendChild(pixel);
+        }
+        updateLivePreviews();
+    }
+
+    function paintEditorPixel(index, pixelNode) {
+        if (editorActiveTool === "pencil") {
+            editorPixelData[index] = editorActiveColor;
+            pixelNode.style.backgroundColor = editorActiveColor;
+        } else if (editorActiveTool === "eraser") {
+            editorPixelData[index] = null;
+            pixelNode.style.backgroundColor = "";
+        }
+        updateLivePreviews();
+    }
+
+    function updateLivePreviews() {
+        const tempSVG = generateCustomSVG(editorPixelData);
+        previewLarge.innerHTML = tempSVG;
+        previewSmall.innerHTML = tempSVG;
+    }
+
+    // Global drag end listener for editor grid
+    document.addEventListener("mouseup", () => {
+        editorIsDrawing = false;
+    });
+
+    // Close Modal without saving
+    function closeModal() {
+        editorModal.classList.add("hidden");
+        editorModal.setAttribute("aria-hidden", "true");
+        currentEditingTool = null;
+    }
+
+    if (modalCloseHeaderBtn) modalCloseHeaderBtn.addEventListener("click", closeModal);
+    if (editorBtnCancel) editorBtnCancel.addEventListener("click", closeModal);
+
+    // Save Custom Graphic
+    if (editorBtnSave) {
+        editorBtnSave.addEventListener("click", () => {
+            if (!currentEditingTool) return;
+
+            // Check if the grid is entirely empty/transparent
+            const isGridEmpty = editorPixelData.every(color => color === null);
+            
+            if (isGridEmpty) {
+                if (!confirm("Your drawing is completely transparent. Click OK to save it anyway, or Cancel to keep editing.")) {
+                    return;
+                }
+            }
+
+            // Generate SVG and override TILE_GRAPHICS
+            TILE_GRAPHICS[currentEditingTool] = generateCustomSVG(editorPixelData);
+            
+            // Save color array state in customGraphics dictionary
+            customGraphics[currentEditingTool] = [...editorPixelData];
+            localStorage.setItem(CUSTOM_GRAPHICS_KEY, JSON.stringify(customGraphics));
+
+            // Update the toolbox button icon
+            const toolBtn = document.querySelector(`.tool-btn[data-tool="${currentEditingTool}"]`);
+            if (toolBtn) {
+                const iconDiv = toolBtn.querySelector(".tool-icon");
+                if (iconDiv) {
+                    iconDiv.innerHTML = TILE_GRAPHICS[currentEditingTool];
+                }
+            }
+
+            // Snappy redraw of the canvas cells
+            const canvasCells = gridCanvas.querySelectorAll(".grid-cell");
+            canvasCells.forEach((cell, idx) => {
+                updateCellDOM(cell, gridState[idx]);
+            });
+
+            // Trigger auto-save blink indicator for polish
+            autoSaveGrid();
+
+            closeModal();
+        });
+    }
+
+    // Clear Canvas Action
+    if (editorBtnClear) {
+        editorBtnClear.addEventListener("click", () => {
+            if (confirm("Are you sure you want to clear the drawing grid?")) {
+                editorPixelData.fill(null);
+                renderEditorGrid();
+            }
+        });
+    }
+
+    // Restore Default Action (Back to vector SVG art)
+    if (editorBtnRestore) {
+        editorBtnRestore.addEventListener("click", () => {
+            if (!currentEditingTool) return;
+            
+            if (confirm(`Restore the ${currentEditingTool} graphic to its original designer vector SVG?`)) {
+                // Delete custom entry
+                delete customGraphics[currentEditingTool];
+                localStorage.setItem(CUSTOM_GRAPHICS_KEY, JSON.stringify(customGraphics));
+
+                // Restore SVG in TILE_GRAPHICS
+                TILE_GRAPHICS[currentEditingTool] = DEFAULT_TILE_GRAPHICS[currentEditingTool];
+
+                // Update toolbox button icon
+                const toolBtn = document.querySelector(`.tool-btn[data-tool="${currentEditingTool}"]`);
+                if (toolBtn) {
+                    const iconDiv = toolBtn.querySelector(".tool-icon");
+                    if (iconDiv) {
+                        iconDiv.innerHTML = TILE_GRAPHICS[currentEditingTool];
+                    }
+                }
+
+                // Snappy redraw of canvas cells
+                const canvasCells = gridCanvas.querySelectorAll(".grid-cell");
+                canvasCells.forEach((cell, idx) => {
+                    updateCellDOM(cell, gridState[idx]);
+                });
+
+                closeModal();
+            }
+        });
+    }
+
+    // Tool click selectors
+    if (editorToolPencil) editorToolPencil.addEventListener("click", () => setEditorActiveTool("pencil"));
+    if (editorToolEraser) editorToolEraser.addEventListener("click", () => setEditorActiveTool("eraser"));
+    if (editorToolFill) {
+        editorToolFill.addEventListener("click", () => {
+            if (confirm("Fill the entire graphic canvas with the active color?")) {
+                const color = editorActiveTool === "pencil" ? editorActiveColor : null;
+                editorPixelData.fill(color);
+                renderEditorGrid();
+            }
+        });
+    }
+
+    // Palette colors click handler
+    paletteColors.forEach(pBtn => {
+        pBtn.addEventListener("click", () => {
+            paletteColors.forEach(p => p.classList.remove("active"));
+            pBtn.classList.add("active");
+            setEditorActiveColor(pBtn.getAttribute("data-color"));
+            setEditorActiveTool("pencil"); // Auto switch to pencil when color is selected
+        });
+    });
+
+    // Custom Color Picker change handler
+    if (editorColorPicker) {
+        editorColorPicker.addEventListener("input", (e) => {
+            setEditorActiveColor(e.target.value);
+            setEditorActiveTool("pencil"); // Auto switch to pencil
+
+            // De-highlight pre-defined palette buttons unless it matches exactly
+            paletteColors.forEach(pBtn => {
+                if (pBtn.getAttribute("data-color").toLowerCase() === e.target.value.toLowerCase()) {
+                    pBtn.classList.add("active");
+                } else {
+                    pBtn.classList.remove("active");
+                }
+            });
+        });
+    }
+
+    // Keyboard support: Escape key closes modal
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && editorModal && !editorModal.classList.contains("hidden")) {
+            closeModal();
         }
     });
 
