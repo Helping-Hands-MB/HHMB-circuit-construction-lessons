@@ -168,22 +168,32 @@
                     <!-- Color Palette -->
                     <div class="editor-section">
                         <label class="section-label">Palette</label>
-                        <div class="palette-grid" id="palette-grid">
-                            <!-- Pre-defined color buttons -->
-                            <button type="button" class="palette-color active" style="background-color: #f97316;" data-color="#f97316"></button>
-                            <button type="button" class="palette-color" style="background-color: #3b82f6;" data-color="#3b82f6"></button>
-                            <button type="button" class="palette-color" style="background-color: #10b981;" data-color="#10b981"></button>
-                            <button type="button" class="palette-color" style="background-color: #475569;" data-color="#475569"></button>
-                            <button type="button" class="palette-color" style="background-color: #d97706;" data-color="#d97706"></button>
-                            <button type="button" class="palette-color" style="background-color: #78350f;" data-color="#78350f"></button>
-                            <button type="button" class="palette-color" style="background-color: #0284c7;" data-color="#0284c7"></button>
-                            <button type="button" class="palette-color" style="background-color: #ffffff;" data-color="#ffffff"></button>
-                            <button type="button" class="palette-color" style="background-color: #000000;" data-color="#000000"></button>
-                            <button type="button" class="palette-color" style="background-color: #ef4444;" data-color="#ef4444"></button>
+                        <div class="palette-grid color-palette-grid" id="palette-grid">
+                            <!-- Primary Colors -->
+                            <button type="button" class="palette-color" style="background-color: #ff0000;" data-color="#ff0000" title="Red"></button>
+                            <button type="button" class="palette-color" style="background-color: #ffff00;" data-color="#ffff00" title="Yellow"></button>
+                            <button type="button" class="palette-color" style="background-color: #0000ff;" data-color="#0000ff" title="Blue"></button>
+
+                            <!-- Secondary Colors -->
+                            <button type="button" class="palette-color active" style="background-color: #ff7f00;" data-color="#ff7f00" title="Orange"></button>
+                            <button type="button" class="palette-color" style="background-color: #00ff00;" data-color="#00ff00" title="Green"></button>
+                            <button type="button" class="palette-color" style="background-color: #8b00ff;" data-color="#8b00ff" title="Purple"></button>
+
+                            <!-- Tertiary Colors -->
+                            <button type="button" class="palette-color" style="background-color: #ff4500;" data-color="#ff4500" title="Red-Orange"></button>
+                            <button type="button" class="palette-color" style="background-color: #ffae42;" data-color="#ffae42" title="Yellow-Orange"></button>
+                            <button type="button" class="palette-color" style="background-color: #9acd32;" data-color="#9acd32" title="Yellow-Green"></button>
+                            <button type="button" class="palette-color" style="background-color: #008080;" data-color="#008080" title="Blue-Green"></button>
+                            <button type="button" class="palette-color" style="background-color: #4b0082;" data-color="#4b0082" title="Blue-Purple"></button>
+                            <button type="button" class="palette-color" style="background-color: #cc00cc;" data-color="#cc00cc" title="Red-Purple"></button>
+
+                            <!-- Black & White -->
+                            <button type="button" class="palette-color" style="background-color: #ffffff;" data-color="#ffffff" title="White"></button>
+                            <button type="button" class="palette-color" style="background-color: #000000;" data-color="#000000" title="Black"></button>
                         </div>
                         <div class="custom-color-row">
                             <span>Custom Color:</span>
-                            <input type="color" id="editor-color-picker" value="#f97316" title="Choose custom color">
+                            <input type="color" id="editor-color-picker" value="#ff7f00" title="Choose custom color">
                         </div>
                     </div>
 

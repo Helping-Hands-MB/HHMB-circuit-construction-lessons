@@ -115,13 +115,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- Dynamic SVG Builder for Custom 8x8 Pixel-Art Drawings ---
     function generateCustomSVG(pixelData) {
-        let svg = `<svg viewBox="0 0 8 8" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">`;
+        let svg = `<svg viewBox="0 0 8 8" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">`;
         for (let r = 0; r < 8; r++) {
             for (let c = 0; c < 8; c++) {
                 const color = pixelData[r * 8 + c];
                 if (color) {
-                    // Slight sub-pixel bleed overlap to prevent thin rendering gap lines in some browsers
-                    svg += `<rect x="${c}" y="${r}" width="1.05" height="1.05" fill="${color}" stroke="${color}" stroke-width="0.05" />`;
+                    svg += `<rect x="${c}" y="${r}" width="1" height="1" fill="${color}" />`;
                 }
             }
         }
@@ -335,7 +334,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let currentEditingTool = null;
     let editorPixelData = Array(64).fill(null);
-    let editorActiveColor = "#f97316"; 
+    let editorActiveColor = "#ff7f00";
     let editorActiveTool = "pencil"; // pencil, eraser
     let editorIsDrawing = false;
 
@@ -368,7 +367,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Sync Palette Active Color with current tool color preview block
             const defaultColors = {
-                neighborhood: "#f97316",
+                neighborhood: "#ff7f00",
                 business: "#3b82f6",
                 park: "#10b981",
                 road: "#475569",
@@ -377,7 +376,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 water: "#0284c7"
             };
 
-            const initialColor = defaultColors[currentEditingTool] || "#f97316";
+            const initialColor = defaultColors[currentEditingTool] || "#ff7f00";
             setEditorActiveColor(initialColor);
 
             // Highlight the matching palette button if it exists
