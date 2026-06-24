@@ -44,3 +44,13 @@ It should work!
 Try adding a switch to your circuit so it can be turned off or on whenever you want. In other words, can you change this Closed Circuit into an Open Circuit to shut down the bulb?
 
 Once you can, continue by clicking the "Next Step" button.
+
+## 6. Conductors vs. Insulators
+Materials that allow electricity to flow easily are called conductors (like metal wires). Materials that stop the flow of electricity are called insulators (like plastic or rubber).
+
+**Question**: Try adding different common household items from the simulator (like a paper clip or a coin if available) to your circuit. Which ones make the light bulb light up? Why? (Hint: Think about what materials they are made of!)
+
+## 7. Series Circuits
+A series circuit is when you connect multiple components in a row, like a chain. In a series circuit, there is only one path for the electricity to flow.
+
+**Try it yourself**: Create a single loop that contains a battery, a switch, and *two* light bulbs. What happens to the brightness of the bulbs when you add the second one? (Hint: They share the power!)
