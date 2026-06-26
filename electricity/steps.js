@@ -27,5 +27,13 @@ const lessonSteps = [
     {
         "title": "7. Series Circuits",
         "content": "<p>A series circuit is when you connect multiple components in a row, like a chain. In a series circuit, there is only one path for the electricity to flow.</p>\n<p><strong>Try it yourself</strong>: Create a single loop that contains a battery, a switch, and <em>two</em> light bulbs. What happens to the brightness of the bulbs when you add the second one? (Hint: They share the power!)</p>"
+    },
+    {
+        "title": "8. Parallel Circuits",
+        "content": "<p>A parallel circuit is when you connect components in separate branches, like rungs on a ladder. In a parallel circuit, there are multiple paths for the electricity to flow.</p>\n<p><strong>Try it yourself</strong>: Create a circuit with a battery, a switch, and <em>two</em> light bulbs in parallel. What happens to the brightness of the bulbs when you add the second one? (Hint: Each gets the full power!)</p>"
+    },
+    {
+        "title": "9. Resistance",
+        "content": "<p>Sometimes we need to limit or control the flow of electricity to protect components. This is where a <strong>resistor</strong> comes in handy. It limits the flow of electrical current, similar to pinching a water hose.</p>\n<p><strong>Try it yourself</strong>: Replace the switch with a resistor in your circuit. What happens to the brightness of the bulbs? Try changing the resistance value.</p>"
     }
 ];

@@ -350,5 +350,93 @@
       "translation": "Pendeln",
       "definition": "Der regelmäßige Weg, den eine Person zwischen ihrem Zuhause und der Schule oder der Arbeit zurücklegt."
     }
+  },
+  "magnet": {
+    "en": {
+      "translation": "magnet",
+      "definition": "A material or object that produces a magnetic field, which pulls on other ferromagnetic materials."
+    },
+    "es": {
+      "translation": "imán",
+      "definition": "Un material u objeto que produce un campo magnético, que atrae a otros materiales ferromagnéticos."
+    },
+    "pt": {
+      "translation": "ímã",
+      "definition": "Um material ou objeto que produz um campo magnético, que atrai outros materiais ferromagnéticos."
+    },
+    "fr": {
+      "translation": "aimant",
+      "definition": "Un matériau ou objet qui produit un champ magnétique, attirant d'autres matériaux ferromagnétiques."
+    },
+    "de": {
+      "translation": "Magnet",
+      "definition": "Ein Material oder Objekt, das ein Magnetfeld erzeugt, welches andere ferromagnetische Materialien anzieht."
+    }
+  },
+  "magnetic field": {
+    "en": {
+      "translation": "magnetic field",
+      "definition": "An invisible area of force around a magnet."
+    },
+    "es": {
+      "translation": "campo magnético",
+      "definition": "Un área invisible de fuerza alrededor de un imán."
+    },
+    "pt": {
+      "translation": "campo magnético",
+      "definition": "Uma área invisível de força ao redor de um ímã."
+    },
+    "fr": {
+      "translation": "champ magnétique",
+      "definition": "Une zone de force invisible autour d'un aimant."
+    },
+    "de": {
+      "translation": "Magnetfeld",
+      "definition": "Ein unsichtbarer Kraftbereich um einen Magneten."
+    }
+  },
+  "compass": {
+    "en": {
+      "translation": "compass",
+      "definition": "A tool with a magnetic pointer that aligns itself with the Earth's magnetic field, used for navigation."
+    },
+    "es": {
+      "translation": "brújula",
+      "definition": "Una herramienta con una aguja magnética que se alinea con el campo magnético de la Tierra, utilizada para la navegación."
+    },
+    "pt": {
+      "translation": "bússola",
+      "definition": "Uma ferramenta com um ponteiro magnético que se alinha com o campo magnético da Terra, usada para navegação."
+    },
+    "fr": {
+      "translation": "boussole",
+      "definition": "Un outil avec une aiguille magnétique qui s'aligne avec le champ magnétique de la Terre, utilisé pour la navigation."
+    },
+    "de": {
+      "translation": "Kompass",
+      "definition": "Ein Werkzeug mit einer magnetischen Nadel, die sich nach dem Erdmagnetfeld ausrichtet und zur Navigation verwendet wird."
+    }
+  },
+  "parallel": {
+    "en": {
+      "translation": "parallel",
+      "definition": "In circuits, components connected in separate branches where current has multiple paths to flow."
+    },
+    "es": {
+      "translation": "paralelo",
+      "definition": "En los circuitos, componentes conectados en ramas separadas donde la corriente tiene múltiples caminos para fluir."
+    },
+    "pt": {
+      "translation": "paralelo",
+      "definition": "Em circuitos, componentes conectados em ramos separados onde a corrente tem múltiplos caminhos para fluir."
+    },
+    "fr": {
+      "translation": "parallèle",
+      "definition": "Dans les circuits, composants connectés en branches séparées où le courant a plusieurs chemins pour circuler."
+    },
+    "de": {
+      "translation": "parallel",
+      "definition": "In Stromkreisen: Bauteile, die in separaten Zweigen angeschlossen sind, in denen der Strom mehrere Wege fließen kann."
+    }
   }
 }
