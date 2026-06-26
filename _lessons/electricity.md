@@ -54,3 +54,13 @@ Materials that allow electricity to flow easily are called conductors (like meta
 A series circuit is when you connect multiple components in a row, like a chain. In a series circuit, there is only one path for the electricity to flow.
 
 **Try it yourself**: Create a single loop that contains a battery, a switch, and *two* light bulbs. What happens to the brightness of the bulbs when you add the second one? (Hint: They share the power!)
+
+## 8. Parallel Circuits
+A parallel circuit is when you connect components in separate branches, like rungs on a ladder. In a parallel circuit, there are multiple paths for the electricity to flow.
+
+**Try it yourself**: Create a circuit with a battery, a switch, and *two* light bulbs in parallel. What happens to the brightness of the bulbs when you add the second one? (Hint: Each gets the full power!)
+
+## 9. Resistance
+Sometimes we need to limit or control the flow of electricity to protect components. This is where a **resistor** comes in handy. It limits the flow of electrical current, similar to pinching a water hose.
+
+**Try it yourself**: Replace the switch with a resistor in your circuit. What happens to the brightness of the bulbs? Try changing the resistance value.
