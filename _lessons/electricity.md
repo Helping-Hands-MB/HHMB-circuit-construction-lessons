@@ -14,6 +14,8 @@ Continue by clicking the "Next Step" button.
 ## 2. Electricity & Electrons
 What exactly is electricity? Electricity is energy created by the movement of tiny, invisible particles called electrons. These electrons carry a negative charge. Think of them as tiny, energetic particles flowing together inside a wire, similar to water flowing through a garden hose. When they move together, they create usable electrical energy.
 
+[Kids Learn About Electricity](https://www.youtube.com/watch?v=92JAOPdv4JQ)
+
 Start by dragging a battery to the center of the workspace from the left menu. This will be our power source. A **battery** is your energy source. It stores the electrical energy for the rest circuit. When not doing anything, it is actually stored as chemical energy and then becomes electrical energy when in a circuit.
 
 Continue by clicking the "Next Step" button.
@@ -29,6 +31,8 @@ Drag a wire and connect it from the battery to the light bulb like shown in the 
 
 Notice it is still not lighting up yet. Let’s learn why by clicking the "Next Step" button.
 
+**Question**: What happens if you connect the wire to the side of the battery instead of the ends?
+
 ## 4. Open vs. Closed Circuits
 To do any real work, electrons need a continuous, uninterrupted path to travel from their energy source, through a device, and back again. This full loop is called a circuit.
 
@@ -39,6 +43,8 @@ When all the wires are connected or a switch is turned on, it completes the loop
 Grab another wire and connect the light bulb to the other end of the battery to close our circuit. 
 
 It should work!
+
+**Question**: Can you think of a way to make the bulb brighter?
 
 ## 5. Adding a Switch
 Try adding a switch to your circuit so it can be turned off or on whenever you want. In other words, can you change this Closed Circuit into an Open Circuit to shut down the bulb?
