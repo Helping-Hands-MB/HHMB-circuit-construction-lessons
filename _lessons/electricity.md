@@ -16,6 +16,8 @@ What exactly is electricity? Electricity is energy created by the movement of ti
 
 Start by dragging a battery to the center of the workspace from the left menu. This will be our power source. A **battery** is your energy source. It stores the electrical energy for the rest circuit. When not doing anything, it is actually stored as chemical energy and then becomes electrical energy when in a circuit.
 
+https://www.youtube.com/watch?v=mc979OhitAg
+
 Continue by clicking the "Next Step" button.
 
 ## 3. Using Electricity
@@ -23,9 +25,7 @@ To create a circuit, it needs a power source (our battery), a device (such as a 
 
 Grab a Light Bulb from the left menu and drag it into the workspace. Notice it is not lighting up yet.
 
-Drag a wire and connect it from the battery to the light bulb like shown in the image below.
-
-[example image of light bulb half connected]
+Drag a wire and connect it from the battery to the light bulb.
 
 Notice it is still not lighting up yet. Let’s learn why by clicking the "Next Step" button.
 
